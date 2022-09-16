@@ -1,3 +1,5 @@
+import ENV from './env.js'
+
 const currencyEl_src = document.getElementById('currency-src')
 const amountEl_src = document.getElementById('amount-src')
 const currencyEl_out = document.getElementById('currency-out')
@@ -11,7 +13,7 @@ const calculate = () => {
   const currency_src = currencyEl_src.value
   const currency_out = currencyEl_out.value
 
-  fetch(`https://v6.exchangerate-api.com/v6/${ENV_CHARGERATE_KEY}latest/${currency_src}`)
+  fetch(`https://v6.exchangerate-api.com/v6/${ENV.EXCHANGERATE_KEY}/latest/${currency_src}`)
     .then(res => res.json())
     .then(data => {
       if ('conversion_rates' in data) {
