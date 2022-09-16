@@ -4,7 +4,7 @@ const addUserBtn = document.getElementById('add-user')
 const doubleBtn = document.getElementById('double')
 const showMillionairBtn = document.getElementById('show-millionairs')
 const sortBtn = document.getElementById('sort')
-const calculateWealthBtn = document.getElementById('sort')
+const calculateWealthBtn = document.getElementById('calculate-wealth')
 
 let data = [];
 
@@ -12,12 +12,12 @@ let data = [];
 const getRandomUser = async () => {
   const res = await fetch('https://randomuser.me/api')
   const data = await res.json()  
-  
+ 
   const user = data.results[0]
 
   const newUser = {
     name: `${user.name.first} ${user.name.last}`,
-    money: Math.floor(Math.random() * 10000000)
+    money: Math.floor(Math.random() * 5000000)
   }
 
   addData(newUser)
@@ -41,7 +41,7 @@ const doubleMoney = () => {
 }
 
 const filterMillionairs = () => {
-  let millionairs = data.filter(user => user.money >= 1000000)
+  const millionairs = data.filter(user => user.money >= 1000000)
 
   updateDOM(millionairs)
 }
@@ -50,6 +50,15 @@ const sortByRichest = () => {
   data.sort((a, b) => b.money - a.money) // providing `compairison function` to `sort`
 
   updateDOM()
+}
+
+const calculateEntireWealth = () => {
+  const total = data.reduce((acc, user) => acc += user.money, 0)
+
+  const totalEl = document.createElement('div')
+  totalEl.innerHTML = `<h3>Total Wealth: <string>${formatMoney(total)}</strong></h3>`
+
+  main.appendChild(totalEl)
 }
 
 const updateDOM = (providedData = data) => {
@@ -73,3 +82,4 @@ addUserBtn.addEventListener('click', getRandomUser)
 doubleBtn.addEventListener('click', doubleMoney)
 showMillionairBtn.addEventListener('click', filterMillionairs)
 sortBtn.addEventListener('click', sortByRichest)
+calculateWealthBtn.addEventListener('click', calculateEntireWealth)
