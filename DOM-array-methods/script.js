@@ -17,7 +17,7 @@ const getRandomUser = async () => {
 
   const newUser = {
     name: `${user.name.first} ${user.name.last}`,
-    money: Math.floor(Math.random() * 1000000)
+    money: Math.floor(Math.random() * 10000000)
   }
 
   addData(newUser)
@@ -36,6 +36,18 @@ const doubleMoney = () => {
       money: user.money * 2
     }
   })
+
+  updateDOM()
+}
+
+const filterMillionairs = () => {
+  let millionairs = data.filter(user => user.money >= 1000000)
+
+  updateDOM(millionairs)
+}
+
+const sortByRichest = () => {
+  data.sort((a, b) => b.money - a.money) // providing `compairison function` to `sort`
 
   updateDOM()
 }
@@ -59,3 +71,5 @@ const formatMoney = num => '$' + num.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&
 window.addEventListener('load', () => { getRandomUser(); getRandomUser(); })
 addUserBtn.addEventListener('click', getRandomUser)
 doubleBtn.addEventListener('click', doubleMoney)
+showMillionairBtn.addEventListener('click', filterMillionairs)
+sortBtn.addEventListener('click', sortByRichest)
