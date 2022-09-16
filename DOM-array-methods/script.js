@@ -29,6 +29,17 @@ const addData = obj => {
   updateDOM()
 }
 
+const doubleMoney = () => {
+  data = data.map(user => {
+    return {
+      ...user, 
+      money: user.money * 2
+    }
+  })
+
+  updateDOM()
+}
+
 const updateDOM = (providedData = data) => {
   // clear main div
   main.innerHTML = `<h2><strong>Person</strong> Wealth</h2>`
@@ -45,5 +56,6 @@ const updateDOM = (providedData = data) => {
 const formatMoney = num => '$' + num.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')
 
 // Event Listeners
+window.addEventListener('load', () => { getRandomUser(); getRandomUser(); })
 addUserBtn.addEventListener('click', getRandomUser)
-
+doubleBtn.addEventListener('click', doubleMoney)
