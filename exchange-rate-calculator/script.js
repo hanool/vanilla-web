@@ -11,7 +11,7 @@ const calculate = () => {
   const currency_src = currencyEl_src.value
   const currency_out = currencyEl_out.value
 
-  fetch(`https://v6.exchangerate-api.com/v6/4a1d4a4e0dbe2894ecf893b9/latest/${currency_src}`)
+  fetch(`https://v6.exchangerate-api.com/v6/${ENV_CHARGERATE_KEY}latest/${currency_src}`)
     .then(res => res.json())
     .then(data => {
       if ('conversion_rates' in data) {
