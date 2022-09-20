@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <title>My Landing Page</title>
+</head>
+<body>
+  <nav>
+    <div class="logo"><img src="https://randomuser.me/api/portraits/men/76.jpg" alt="user"></div>
+    <ul>
+      <li><a href="#">Home</a></li>
+      <li><a href="#">PortFolio</a></li>
+      <li><a href="#">Blog</a></li>
+      <li><a href="#">Contact Me</a></li>
+    </ul>
+  </nav>
+  
+  <header>
+    <button id="toggle" class="toggle">
+      <i class="fa fa-bars fa-2x"></i>
+    </button>
+
+    <h1>My Landing Page</h1>
+
+    <p>Consectetur tenetur dignissimos qui dicta nulla? Nemo sunt ad tenetur</p>
+
+    <button id="open" class="cta-btn">Sign Up</button>
+  </header>
+
+  <div class="container">
+    <h2>What is this Landing page about?</h2>
+    <p>Elit modi nesciunt odio quos id Quibusdam explicabo exercitationem cupiditate ea laboriosam molestiae quisquam accusantium.</p>
+    <p>Dolor reiciendis similique neque minima vel Eos sint dolore accusamus?</p>
+
+    <h2>Tell Me More</h2>
+
+    <p>Dolor iste necessitatibus odit recusandae laudantium provident natus? Dolor ipsum in iure quibusdam in At accusantium nemo eos consectetur ab Nisi ipsum culpa ab obcaecati nobis? Eaque porro tempore eius</p>
+
+    <h2>Benefits</h2>
+    <ul>
+      <li>Lifetime Access</li>
+      <li>30Day Money Back</li>
+      <li>Tailored Customer Support</li>
+    </ul>
+
+    <p>Ipsum veniam eligendi ullam ullam quam? Eveniet provident dolore impedit aperiam quae. Cum inventore odit omnis a facere Libero voluptatem consectetur sint placeat nisi. Blanditiis rerum reiciendis excepturi repellat et? Error et neque repellendus aspernatur iste Amet culpa blanditiis doloremque.</p>
+  </div>
+
+  <!-- Modal -->
+  <div id="modal" class="modal-container">
+    <div class="modal">
+      <button id="close" class="close-btn"><i class="fa fa-times"></i></button>
+      <div class="modal-header">
+        <h3>Sign Up</h3>
+      </div>
+      <div class="modal-content">
+        <p>Register with us to get offers, support and more</p>
+        <form class="modal-form">
+          <div>
+            <label for="name">Name</label>
+            <input id="name" class="form-input" type="text" placeholder="Enter Name">
+          </div>
+          <div>
+            <label for="email">Email</label>
+            <input id="email" class="form-input" type="text" placeholder="Enter Email">
+          </div>
+          <div>
+            <label for="password">Password</label>
+            <input id="password" class="form-input" type="password" placeholder="Enter Password">
+          </div>
+          <div>
+            <label for="password2">Confirm Password</label>
+            <input id="password2" class="form-input" type="password" placeholder="Confirm Password">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
