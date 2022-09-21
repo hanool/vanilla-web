@@ -43,5 +43,42 @@ const searchMeal = (e) => {
   search.value = ''
 }
 
+const getMealById = mealId => {
+  fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${mealId}`)
+    .then(res => res.json())
+    .then(data => {
+      const meal = data.meals[0]
+
+      addMealToDOM(meal)
+    })
+}
+
+const addMealToDOM = mealInfo => {
+  console.log(mealInfo)
+  const ingredients = Object.entries(mealInfo)
+    .filter(info => /^strIngredient\d+/.test(info[0]))
+    .filter(elem => elem[1])
+    .map((elem, i) => elem[1] + ` - ${mealInfo[`strMeasure${i+1}`]}`)
+  single_mealEl.innerHTML = `
+    <h3>${mealInfo.strMeal}</h3>
+    <div class="main">
+      <h4>Instructions</h4>
+      <p>${mealInfo.strInstructions}</p>
+      <h4>Ingredients</h4>
+      <ul>
+        ${ingredients.map(ing => `<li>${ing}</li>`).join('')}
+      </ul>
+    </div>
+  ` 
+}
+
 // Event Listeners
 submit.addEventListener('submit', searchMeal)
+
+mealsEl.addEventListener('click', e => {
+  const mealInfo = e.target.closest('.meal-info')
+  if (mealInfo) {
+    const mealId = mealInfo.getAttribute('data-mealid')
+    getMealById(mealId)
+  }
+})
