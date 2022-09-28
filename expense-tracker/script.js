@@ -20,6 +20,12 @@ const init = () => {
 const addTransaction = (e) => {
   e.preventDefault()
 
+  // check empty value
+  if (text.value.trim() === '' || amount.value.trim() === '') {
+    alert('🤬 Fill The Form')
+    return
+  }
+
   // create transaction info from form
   const transaction = {
     id:
