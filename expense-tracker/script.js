@@ -87,10 +87,12 @@ const refreshTotal = () => {
   money_plus.innerText = `+$${totalIncome}`
   money_minus.innerText = `-$${totalExpense}`
   balance.innerText = `${sign}$${total}`
-  if (total < 0) {
+  if (sign === '-') {
     balance.classList.add('minus')
+    balance.classList.remove('plus')
   } else {
     balance.classList.add('plus')
+    balance.classList.remove('minus')
   }
 }
 
