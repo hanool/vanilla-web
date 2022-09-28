@@ -7,7 +7,12 @@ const form = document.getElementById('form')
 const text = document.getElementById('text')
 const amount = document.getElementById('amount')
 
-let transactions = []
+const localStorageTransactions = JSON.parse(
+  localStorage.getItem('transactions')
+)
+
+let transactions =
+  localStorage.getItem('transactions') !== null ? localStorageTransactions : []
 
 // Functions
 const init = () => {
@@ -36,6 +41,7 @@ const addTransaction = (e) => {
   // add transaction info
   transactions.push(transaction)
   addTransactionToDOM(transaction)
+  updateLocalStorage()
 
   // init form
   text.value = ''
@@ -67,7 +73,12 @@ const generateId = () => {
 
 const removeTransaction = (id) => {
   transactions = transactions.filter((transaction) => transaction.id !== id)
+  updateLocalStorage()
   init()
+}
+
+const updateLocalStorage = () => {
+  localStorage.setItem('transactions', JSON.stringify(transactions))
 }
 
 const getTotalIncome = () => {
