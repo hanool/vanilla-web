@@ -49,7 +49,9 @@ const addTransactionToDOM = (transaction) => {
   item.classList.add(transaction.amount < 0 ? 'minus' : 'plus')
   item.innerHTML = `
     ${transaction.text}<span>${sign}$${Math.abs(transaction.amount)}</span>
-    <button class="delete-btn">x</button>
+    <button class="delete-btn" onClick="removeTransaction(${
+      transaction.id
+    })">x</button>
   `
 
   list.appendChild(item)
@@ -61,6 +63,11 @@ const generateId = () => {
       .map((transaction) => transaction.id)
       .reduce((pId, cId) => (cId > pId ? cId : pId), 0) + 1
   )
+}
+
+const removeTransaction = (id) => {
+  transactions = transactions.filter((transaction) => transaction.id !== id)
+  init()
 }
 
 const getTotalIncome = () => {
