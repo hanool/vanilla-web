@@ -101,15 +101,23 @@ const refreshTotal = () => {
   const totalIncome = getTotalIncome().toFixed(2)
   const totalExpense = getTotalExpense().toFixed(2)
   const total = Math.abs(totalIncome - totalExpense).toFixed(2)
-  const sign = totalIncome - totalExpense < 0 ? '-' : '+'
+  const sign =
+    totalIncome - totalExpense < 0
+      ? '-'
+      : totalIncome - totalExpense > 0
+      ? '+'
+      : ''
   money_plus.innerText = `+$${totalIncome}`
   money_minus.innerText = `-$${totalExpense}`
   balance.innerText = `${sign}$${total}`
   if (sign === '-') {
     balance.classList.add('minus')
     balance.classList.remove('plus')
-  } else {
+  } else if (sign === '+') {
     balance.classList.add('plus')
+    balance.classList.remove('minus')
+  } else {
+    balance.classList.remove('plus')
     balance.classList.remove('minus')
   }
 }
