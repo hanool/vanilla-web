@@ -7,13 +7,7 @@ const form = document.getElementById('form')
 const text = document.getElementById('text')
 const amount = document.getElementById('amount')
 
-const dummyTransactions = [
-  { id: '1', text: 'Salary', amount: '300' },
-  { id: '2', text: 'Macbook', amount: '-300' },
-  { id: '3', text: 'ipad', amount: '-100' },
-  { id: '4', text: 'Loto', amount: '22300' },
-]
-let transactions = dummyTransactions
+let transactions = []
 
 // Functions
 const init = () => {
@@ -21,6 +15,28 @@ const init = () => {
   list.innerHTML = ``
 
   transactions.forEach(addTransactionToDOM)
+}
+
+const addTransaction = (e) => {
+  e.preventDefault()
+
+  // create transaction info from form
+  const transaction = {
+    id:
+      transactions
+        .map((transaction) => transaction.id)
+        .reduce((pId, cId) => (cId > pId ? cId : pId), 0) + 1,
+    text: text.value,
+    amount: amount.value,
+  }
+
+  // add transaction info
+  transactions.push(transaction)
+  addTransactionToDOM(transaction)
+
+  // init form
+  text.value = ''
+  amount.value = ''
 }
 
 const addTransactionToDOM = (transaction) => {
@@ -69,6 +85,7 @@ const refreshTotal = () => {
 
 // Event Listeners
 window.addEventListener('load', init)
+form.addEventListener('submit', addTransaction)
 
 const listChangeObserver = new MutationObserver(() => {
   refreshTotal()
