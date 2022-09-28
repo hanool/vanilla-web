@@ -28,10 +28,7 @@ const addTransaction = (e) => {
 
   // create transaction info from form
   const transaction = {
-    id:
-      transactions
-        .map((transaction) => transaction.id)
-        .reduce((pId, cId) => (cId > pId ? cId : pId), 0) + 1,
+    id: generateId(),
     text: text.value,
     amount: amount.value,
   }
@@ -56,6 +53,14 @@ const addTransactionToDOM = (transaction) => {
   `
 
   list.appendChild(item)
+}
+
+const generateId = () => {
+  return (
+    transactions
+      .map((transaction) => transaction.id)
+      .reduce((pId, cId) => (cId > pId ? cId : pId), 0) + 1
+  )
 }
 
 const getTotalIncome = () => {
