@@ -3,8 +3,8 @@ const filter = document.getElementById('filter')
 const postContainer = document.getElementById('post-container')
 const loader = document.querySelector('.loader')
 
-const limit = 3
-const page = 1
+let limit = 5
+let page = 1
 const baseUrl = 'https://jsonplaceholder.typicode.com'
 
 // Functions
@@ -33,5 +33,35 @@ const showPosts = async () => {
   })
 }
 
+let isLoading = false
+const loadPostIfBottom = () => {
+  // check if already loading posts
+  if (isLoading) return
+
+  isLoading = true
+  const { scrollTop, scrollHeight, clientHeight } = document.documentElement
+
+  // check if scrolling bottom of page
+  if (scrollTop + clientHeight >= scrollHeight - 5) {
+    // show loading animation
+    loader.classList.add('show')
+
+    setTimeout(() => {
+      // end loading after 1sec
+      loader.classList.remove('show')
+      isLoading = false
+
+      // fetch posts after 0.3sec
+      setTimeout(() => {
+        page++
+        showPosts()
+      }, 300)
+    }, 1000)
+  } else {
+    isLoading = false
+  }
+}
+
 // Event Listenders
 window.addEventListener('load', showPosts)
+window.addEventListener('scroll', loadPostIfBottom)
