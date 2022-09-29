@@ -25,7 +25,7 @@ const showPosts = async () => {
     postEl.innerHTML = `
         <div class="number">${post.id}</div>
         <div class="post-info">
-          <h2 class="post=title">${post.title}</h2>
+          <h2 class="post-title">${post.title}</h2>
           <p class="post-body">${post.body}</p>
         </div>
       `
@@ -62,6 +62,23 @@ const loadPostIfBottom = () => {
   }
 }
 
+const filterPosts = (e) => {
+  const term = e.target.value.toUpperCase()
+  const posts = document.querySelectorAll('.post')
+
+  posts.forEach((post) => {
+    const title = post.querySelector('.post-title').innerText.toUpperCase()
+    const body = post.querySelector('.post-body').innerText.toUpperCase()
+
+    if (title.indexOf(term) > -1 || body.indexOf(term) > -1) {
+      post.style.display = 'flex'
+    } else {
+      post.style.display = 'none'
+    }
+  })
+}
+
 // Event Listenders
 window.addEventListener('load', showPosts)
 window.addEventListener('scroll', loadPostIfBottom)
+filter.addEventListener('input', filterPosts)
