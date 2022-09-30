@@ -17,6 +17,7 @@ let words = []
 let wIndex = -1
 let score = 0
 let time = 10
+let timeInterval
 
 // Functions
 const init = () => {
@@ -25,17 +26,43 @@ const init = () => {
     showNextWord()
     text.removeAttribute('disabled')
     text.focus()
+    timeInterval = setInterval(updateRemainingTime, 1000)
   })
+}
+
+const updateRemainingTime = () => {
+  time--
+  timeEl.innerText = `${time}s`
+
+  if (time === 0) {
+    clearInterval(timeInterval)
+    gameOver()
+  }
+}
+
+const gameOver = () => {
+  endGameContainer.innerHTML = `
+    <h1>Time ran out</h1>
+    <p>Your final score is ${score}</p>
+    <button onclick="location.reload()">Replay</button>
+  `
+  endGameContainer.style.display = 'flex'
 }
 
 const checkMatch = () => {
   if (text.value === word.innerText) {
+    // score
     score += 50
     scoreEl.innerText = score
     scoreContainer.classList.add('scored')
     setTimeout(() => {
       scoreContainer.classList.remove('scored')
     }, 300)
+
+    // time
+    time += 3
+
+    // show next
     showNextWord()
     text.value = ''
   }
