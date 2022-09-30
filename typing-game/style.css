@@ -107,6 +107,22 @@ input:focus {
   position: absolute;
   top: 60px;
   right: 20px;
+  animation: scored 300ms ease-in-out infinite;
+  animation-play-state: paused;
+}
+
+.score-container.scored {
+  animation-play-state: running;
+}
+
+@keyframes scored {
+  0%,
+  100% {
+  }
+
+  60% {
+    transform: scale(1.2);
+  }
 }
 
 .time-container {
