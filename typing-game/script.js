@@ -36,7 +36,7 @@ let timeInterval
 
 // Functions
 const init = () => {
-  difficulty.value = localStorage.getItem('level') || 'easy'
+  getLocalSettings()
 
   // load words
   text.setAttribute('disabled', true)
@@ -46,6 +46,17 @@ const init = () => {
     text.focus()
     timeInterval = setInterval(updateRemainingTime, 1000)
   })
+}
+
+const getLocalSettings = () => {
+  if (localStorage.getItem('showSettings') === 'true') {
+    settings.classList.add('notransition')
+    settings.classList.add('show')
+    settings.classList.remove('notransition')
+  } else {
+    localStorage.setItem('showSettings', false)
+  }
+  difficulty.value = localStorage.getItem('level') || 'easy'
 }
 
 const updateRemainingTime = () => {
@@ -117,7 +128,16 @@ const setLevel = () => {
   location.reload()
 }
 
+const toggleSettings = () => {
+  localStorage.setItem(
+    'showSettings',
+    localStorage.getItem('showSettings') !== 'true'
+  )
+  settings.classList.toggle('show')
+}
+
 // EventListeners
 window.addEventListener('load', init)
 text.addEventListener('input', checkMatch)
 difficulty.addEventListener('change', setLevel)
+settingsBtn.addEventListener('click', toggleSettings)
