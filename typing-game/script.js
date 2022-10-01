@@ -13,14 +13,32 @@ const endGameContainer = document.getElementById('end-game-container')
 // Constants & Variables
 const HOLD_NUM = 20
 const LOAD_THRESHOLD = 5
+const INIT_TIME = 20
+const levelConfig = {
+  easy: {
+    timeBonus: 10,
+    score: 20,
+  },
+  medium: {
+    timeBonus: 5,
+    score: 50,
+  },
+  hard: {
+    timeBonus: 3,
+    score: 100,
+  },
+}
 let words = []
 let wIndex = -1
 let score = 0
-let time = 10
+let time = INIT_TIME
 let timeInterval
 
 // Functions
 const init = () => {
+  difficulty.value = localStorage.getItem('level') || 'easy'
+
+  // load words
   text.setAttribute('disabled', true)
   loadNewWords().then(() => {
     showNextWord()
@@ -52,7 +70,7 @@ const gameOver = () => {
 const checkMatch = () => {
   if (text.value === word.innerText) {
     // score
-    score += 50
+    score += levelConfig[difficulty.value].score
     scoreEl.innerText = score
     scoreContainer.classList.add('scored')
     setTimeout(() => {
@@ -60,7 +78,7 @@ const checkMatch = () => {
     }, 300)
 
     // time
-    time += 3
+    time += levelConfig[difficulty.value].timeBonus
 
     // show next
     showNextWord()
@@ -90,11 +108,16 @@ const loadNewWords = async () => {
   await fetch(`https://random-word-api.herokuapp.com/word?number=${HOLD_NUM}`)
     .then((res) => res.json())
     .then((data) => {
-      console.log(data)
       words.push(...data)
     })
+}
+
+const setLevel = () => {
+  localStorage.setItem('level', difficulty.value)
+  location.reload()
 }
 
 // EventListeners
 window.addEventListener('load', init)
 text.addEventListener('input', checkMatch)
+difficulty.addEventListener('change', setLevel)
