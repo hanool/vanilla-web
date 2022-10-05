@@ -125,6 +125,11 @@ const speak = (text) => {
   // speak
   speechSynthesis.speak(message)
 }
+
+const speakTextBox = (e) => {
+  speak(textarea.value)
+}
+
 const toggleTextBox = () => {
   textBox.classList.toggle('show')
 }
@@ -138,4 +143,5 @@ const deactiveBoxes = () => {
 window.addEventListener('load', init)
 toggleBtn.addEventListener('click', toggleTextBox)
 closeBtn.addEventListener('click', toggleTextBox)
+readBtn.addEventListener('click', speakTextBox)
 message.addEventListener('end', deactiveBoxes)
