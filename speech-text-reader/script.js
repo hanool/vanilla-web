@@ -6,6 +6,9 @@ const readBtn = document.getElementById('read')
 const toggleBtn = document.getElementById('toggle')
 const closeBtn = document.getElementById('close')
 
+const message = new SpeechSynthesisUtterance()
+let voices = []
+
 const data = [
   {
     image: './img/angry.jpg',
@@ -60,6 +63,7 @@ const data = [
 // Functions
 const init = () => {
   data.forEach(createBox)
+  setVoices()
 }
 
 const createBox = (item) => {
@@ -71,16 +75,67 @@ const createBox = (item) => {
     <img src="${image}" alt="${text}"/>
     <p class="info">${text}</p>
   `
+  box.addEventListener('click', (e) => {
+    box.classList.add('active')
+    speak(text)
   })
 
   main.appendChild(box)
 }
 
+const setVoices = () => {
+  voices = speechSynthesis.getVoices()
+
+  voices.forEach((voice) => {
+    // create voice option
+    const voiceOption = document.createElement('option')
+    voiceOption.value = voice.name
+    voiceOption.innerText = `${voice.name} ${voice.lang}`
+
+    // append to select
+    voiceSelect.appendChild(voiceOption)
+  })
+}
+
+const getSelectedVoice = () => {
+  const matchingVoices = speechSynthesis
+    .getVoices()
+    .filter(
+      (v) => `${v.name} ${v.lang}` === voiceSelect.selectedOptions[0].innerText
+    )
+
+  return matchingVoices.length > 0 ? matchingVoices[0] : null
+}
+
+const speak = (text) => {
+  // abort if already speaking
+  if (speechSynthesis.speaking) {
+    return
+  }
+
+  // get selected voice
+  const selectedVoice = getSelectedVoice()
+  if (!selectedVoice) {
+    return
+  }
+  // create voice & text
+  message.text = text
+  message.voice = selectedVoice
+
+  // speak
+  speechSynthesis.speak(message)
+}
 const toggleTextBox = () => {
   textBox.classList.toggle('show')
 }
 
+const deactiveBoxes = () => {
+  document
+    .querySelectorAll('.box.active')
+    .forEach((box) => box.classList.remove('active'))
+}
 // Event Listener
 window.addEventListener('load', init)
 toggleBtn.addEventListener('click', toggleTextBox)
 closeBtn.addEventListener('click', toggleTextBox)
+message.addEventListener('end', deactiveBoxes)
