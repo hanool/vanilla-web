@@ -59,6 +59,7 @@ const createCard = (cardInfo, i) => {
       </div>
     </div>
   `
+  cardEl.addEventListener('click', () => cardEl.classList.toggle('show-answer'))
 
   cardsEl.push(cardEl)
   cardsContainer.appendChild(cardEl)
