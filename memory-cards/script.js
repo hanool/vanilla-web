@@ -45,6 +45,7 @@ const createCard = (cardInfo, i) => {
     cardEl.classList.add('active')
   }
 
+  // Create Card Element
   cardEl.innerHTML = `
     <div class="inner-card">
       <div class="inner-card-front">
@@ -61,8 +62,16 @@ const createCard = (cardInfo, i) => {
   `
   cardEl.addEventListener('click', () => cardEl.classList.toggle('show-answer'))
 
+  // Add to Data/DOM
   cardsEl.push(cardEl)
   cardsContainer.appendChild(cardEl)
+
+  updateCurrentText()
+}
+
+// Show number of cards
+const updateCurrentText = () => {
+  currentEl.innerText = `${currentActiveCard + 1}/${cardsEl.length}`
 }
 
 // EventListieners
