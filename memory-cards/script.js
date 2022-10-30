@@ -74,5 +74,25 @@ const updateCurrentText = () => {
   currentEl.innerText = `${currentActiveCard + 1}/${cardsEl.length}`
 }
 
+const moveCardIndex = (moveAmount) => {
+  currentActiveCard = currentActiveCard + moveAmount
+
+  if (currentActiveCard >= cardsEl.length - 1) {
+    currentActiveCard = cardsEl.length - 1
+  } else {
+    cardsEl[currentActiveCard + 1].className = 'card right'
+  }
+  if (currentActiveCard <= 0) {
+    currentActiveCard = 0
+  } else {
+    cardsEl[currentActiveCard - 1].className = 'card left'
+  }
+
+  cardsEl[currentActiveCard].className = 'card active'
+  updateCurrentText()
+}
+
 // EventListieners
 window.addEventListener('load', createCards)
+nextBtn.addEventListener('click', () => moveCardIndex(+1))
+prevBtn.addEventListener('click', () => moveCardIndex(-1))
