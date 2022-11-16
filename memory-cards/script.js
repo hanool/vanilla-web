@@ -30,6 +30,8 @@ const cards = [
 ]
 
 // Functions
+const getCardsData = () => {}
+
 const createCards = () => {
   cards.forEach((cardInfo, i) => {
     createCard(cardInfo, i)
@@ -92,7 +94,26 @@ const moveCardIndex = (moveAmount) => {
   updateCurrentText()
 }
 
+const showCardAddForm = () => {
+  console.log('hi')
+  addContainer.classList.add('show')
+}
+
+const addCard = () => {
+  let newCard = {
+    question: `${questionEl.value}`,
+    answer: `${answerEl.value}`,
+  }
+  cards.push(newCard)
+  createCard(newCard, cards.length)
+  addContainer.classList.remove('show')
+  questionEl.value = ''
+  answerEl.value = ''
+}
+
 // EventListieners
 window.addEventListener('load', createCards)
 nextBtn.addEventListener('click', () => moveCardIndex(+1))
 prevBtn.addEventListener('click', () => moveCardIndex(-1))
+showBtn.addEventListener('click', showCardAddForm)
+addCardBtn.addEventListener('click', addCard)
