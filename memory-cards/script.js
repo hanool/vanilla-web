@@ -14,26 +14,23 @@ const addContainer = document.getElementById('add-container')
 // Datas
 let currentActiveCard = 0
 const cardsEl = []
-const cards = [
-  {
-    question: 'What must a variable begin with?',
-    answer: 'A letter, $ or _',
-  },
-  {
-    question: 'What is a variable?',
-    answer: 'Container for a piece of data',
-  },
-  {
-    question: 'Example of Case Sensitive Variable',
-    answer: 'thisIsAVariable',
-  },
-]
 
 // Functions
-const getCardsData = () => {}
+const getCards = () => {
+  try {
+    const cards = JSON.parse(localStorage.getItem('cards'))
+    return cards === null ? [] : cards
+  } catch {
+    return []
+  }
+}
+
+const setCardsData = (cards) => {
+  localStorage.setItem('cards', JSON.stringify(cards))
+}
 
 const createCards = () => {
-  cards.forEach((cardInfo, i) => {
+  getCards().forEach((cardInfo, i) => {
     createCard(cardInfo, i)
   })
 }
@@ -77,6 +74,10 @@ const updateCurrentText = () => {
 }
 
 const moveCardIndex = (moveAmount) => {
+  if (currentActiveCard === 0 && cardsEl.length === 0) {
+    return
+  }
+
   currentActiveCard = currentActiveCard + moveAmount
 
   if (currentActiveCard >= cardsEl.length - 1) {
@@ -95,20 +96,43 @@ const moveCardIndex = (moveAmount) => {
 }
 
 const showCardAddForm = () => {
-  console.log('hi')
   addContainer.classList.add('show')
 }
 
+const hideCardAddForm = () => {
+  addContainer.classList.remove('show')
+  emptyCardAddForm()
+}
+
+const emptyCardAddForm = () => {
+  questionEl.value = ''
+  answerEl.value = ''
+}
+
 const addCard = () => {
+  // create new card from form
   let newCard = {
     question: `${questionEl.value}`,
     answer: `${answerEl.value}`,
   }
+
+  // add created card
+  let cards = getCards()
   cards.push(newCard)
   createCard(newCard, cards.length)
   addContainer.classList.remove('show')
-  questionEl.value = ''
-  answerEl.value = ''
+
+  // update local storage
+  setCardsData(cards)
+
+  emptyCardAddForm()
+  moveCardIndex(+1)
+}
+
+const clearCards = () => {
+  localStorage.setItem('cards', '')
+  cardsContainer.innerHTML = ''
+  window.location.reload()
 }
 
 // EventListieners
@@ -116,4 +140,6 @@ window.addEventListener('load', createCards)
 nextBtn.addEventListener('click', () => moveCardIndex(+1))
 prevBtn.addEventListener('click', () => moveCardIndex(-1))
 showBtn.addEventListener('click', showCardAddForm)
+hideBtn.addEventListener('click', hideCardAddForm)
 addCardBtn.addEventListener('click', addCard)
+clearBtn.addEventListener('click', clearCards)
