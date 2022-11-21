@@ -50,7 +50,9 @@ const showData = (songData) => {
 }
 
 const getMoreSongs = async (url) => {
-  const res = await fetch(`${url}`)
+  // needs to visit https://cors-anywhere.herokuapp.com/
+  // and click on the "Request temporary access to the demo server" button
+  const res = await fetch(`https://cors-anywhere.herokuapp.com/${url}`)
   const data = await res.json()
 
   showData(data)
