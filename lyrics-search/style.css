@@ -77,12 +77,12 @@ form button {
   padding: 4px 10px;
 }
 
-ul.search-result {
+.search-result {
   list-style-type: none;
   padding: 0;
 }
 
-ul.search-result li {
+.search-result li {
   display: flex;
   align-items: center;
   justify-content: space-between;
