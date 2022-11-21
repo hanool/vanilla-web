@@ -23,7 +23,7 @@ const showData = (songData) => {
           (song) => `
         <li>
           <span><strong>${song.artist.name}</strong> - ${song.title}</span>
-          <button class="btn" data-artist="${song.artist.name}" data-song-title="${song.title}"> Get Lyrics</button>
+          <button class="btn btn-lyrics" data-artist="${song.artist.name}" data-song-title="${song.title}"> Get Lyrics</button>
         </li>
       `
         )
@@ -58,6 +58,22 @@ const getMoreSongs = async (url) => {
   showData(data)
 }
 
+const getLyrics = async (artist, songTitle) => {
+  const res = await fetch(`${apiURL}/v1/${artist}/${songTitle}`)
+  const data = await res.json()
+  const lyrics = data?.lyrics
+
+  if (!lyrics) return
+
+  searchResult.innerHTML = `
+    <h2>
+      <strong>${artist}</strong> - ${songTitle}
+    </h2>
+    <span>${lyrics}</span>
+  `
+  pagination.innerHTML = ''
+}
+
 const submitSongSearchForm = (e) => {
   e.preventDefault()
 
@@ -70,5 +86,17 @@ const submitSongSearchForm = (e) => {
   }
 }
 
+const onResultClicked = (e) => {
+  const clickedEl = e.target
+
+  if (!clickedEl.classList.contains('btn-lyrics')) return
+
+  const artist = clickedEl.getAttribute('data-artist')
+  const songTitle = clickedEl.getAttribute('data-song-title')
+
+  getLyrics(artist, songTitle)
+}
+
 // event listeners
 form.addEventListener('submit', submitSongSearchForm)
+searchResult.addEventListener('click', onResultClicked)
