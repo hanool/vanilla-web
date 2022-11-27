@@ -21,12 +21,41 @@ const BRICK = {
   },
   COLOR: 'yellow',
 }
+const BALL_CONF = {
+  COLOR: 'blue',
+  SIZE: {
+    W: 10,
+    H: 10,
+  },
+  START_POS: {
+    X: canvas.clientWidth / 2,
+    Y: canvas.clientHeight - 20,
+  },
+  SPEED: 10,
+}
+
+// varibles
+let bricks
+let ball
 
 // functions
 const init = () => {
-  let bricks = initBricks(BRICK_CONF.ROWS, BRICK_CONF.COLS)
-  drawBricks(bricks)
+  bricks = initBricks(BRICK_CONF.ROWS, BRICK_CONF.COLS)
+  ball = initBall()
+  setInterval(delta, 10)
 }
+
+const delta = () => {
+  ctx.clearRect(0, 0, canvas.width, canvas.height)
+  moveBall()
+  draw()
+}
+
+const draw = () => {
+  drawBricks(bricks)
+  drawBall(ball)
+}
+
 const initBricks = (rows, cols) => {
   let bricks = []
   for (let i = 0; i < rows; i++) {
@@ -59,6 +88,55 @@ const drawBricks = (bricks) => {
       }
     })
   })
+}
+
+const initBall = () => {
+  let ball = {
+    position: {
+      x: BALL_CONF.START_POS.X,
+      y: BALL_CONF.START_POS.Y,
+    },
+    speed: {
+      x: 0,
+      y: -BALL_CONF.SPEED,
+    },
+  }
+  return ball
+}
+
+const moveBall = () => {
+  if (
+    ball.position.x < BALL_CONF.SIZE.W ||
+    ball.position.x > canvas.width - BALL_CONF.SIZE.W
+  ) {
+    ball.speed.x *= -1
+  }
+  if (
+    ball.position.y < BALL_CONF.SIZE.H ||
+    ball.position.y > canvas.height - BALL_CONF.SIZE.H
+  ) {
+    ball.speed.y *= -1
+  }
+  ball.position.x += ball.speed.x
+  ball.position.y += ball.speed.y
+}
+
+const drawBall = (ball) => {
+  ctx.beginPath()
+  ctx.ellipse(
+    ball.position.x,
+    ball.position.y,
+    BALL_CONF.SIZE.W,
+    BALL_CONF.SIZE.H,
+    0,
+    0,
+    Math.PI * 2
+  )
+  ctx.fillStyle = 'black'
+  ctx.stroke()
+
+  ctx.fillStyle = BALL_CONF.COLOR
+  ctx.fill()
 }
 
 const drawBrick = (brick) => {
