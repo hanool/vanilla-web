@@ -29,19 +29,32 @@ const BALL_CONF = {
   },
   START_POS: {
     X: canvas.clientWidth / 2,
-    Y: canvas.clientHeight - 20,
+    Y: canvas.clientHeight - 30,
   },
   SPEED: 10,
+}
+const PAD_CONF = {
+  COLOR: 'black',
+  SIZE: {
+    W: 30,
+    H: 10,
+  },
+  START_POS: {
+    X: ( canvas.clientWidth - 30 ) / 2,
+    Y: canvas.clientHeight - 20
+  }
 }
 
 // varibles
 let bricks
 let ball
+let pad
 
 // functions
 const init = () => {
   bricks = initBricks(BRICK_CONF.ROWS, BRICK_CONF.COLS)
   ball = initBall()
+  pad = initPad()
   setInterval(delta, 10)
 }
 
@@ -54,6 +67,7 @@ const delta = () => {
 const draw = () => {
   drawBricks(bricks)
   drawBall(ball)
+  drawPad(pad)
 }
 
 const initBricks = (rows, cols) => {
@@ -98,7 +112,7 @@ const initBall = () => {
     },
     speed: {
       x: 0,
-      y: -BALL_CONF.SPEED,
+      y: BALL_CONF.SPEED,
     },
   }
   return ball
@@ -137,6 +151,26 @@ const drawBall = (ball) => {
 
   ctx.fillStyle = BALL_CONF.COLOR
   ctx.fill()
+}
+
+const initPad = () => {
+  let pad = {
+    position: {
+      x: PAD_CONF.START_POS.X,
+      y: PAD_CONF.START_POS.Y,
+    },
+  } 
+  return pad
+}
+
+const drawPad = (pad) => {
+  ctx.fillStyle = PAD_CONF.COLOR
+  ctx.fillRect(
+    pad.position.x,
+    pad.position.y,
+    PAD_CONF.SIZE.X,
+    PAD_CONF.SIZE.Y
+  )
 }
 
 const drawBrick = (brick) => {
