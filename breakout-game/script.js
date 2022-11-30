@@ -36,12 +36,12 @@ const BALL_CONF = {
 const PAD_CONF = {
   COLOR: 'black',
   SIZE: {
-    W: 30,
-    H: 10,
+    W: 130,
+    H: 15,
   },
   START_POS: {
-    X: ( canvas.clientWidth - 30 ) / 2,
-    Y: canvas.clientHeight - 20
+    X: ( canvas.clientWidth - 130 ) / 2,
+    Y: canvas.clientHeight - 50
   }
 }
 
@@ -168,8 +168,8 @@ const drawPad = (pad) => {
   ctx.fillRect(
     pad.position.x,
     pad.position.y,
-    PAD_CONF.SIZE.X,
-    PAD_CONF.SIZE.Y
+    PAD_CONF.SIZE.W,
+    PAD_CONF.SIZE.H
   )
 }
 
