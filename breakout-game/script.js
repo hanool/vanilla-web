@@ -29,9 +29,9 @@ const BALL_CONF = {
   },
   START_POS: {
     X: canvas.clientWidth / 2,
-    Y: canvas.clientHeight - 30,
+    Y: canvas.clientHeight - 90,
   },
-  SPEED: 10,
+  SPEED: 7,
 }
 const PAD_CONF = {
   COLOR: 'black',
@@ -41,7 +41,7 @@ const PAD_CONF = {
   },
   START_POS: {
     X: ( canvas.clientWidth - 130 ) / 2,
-    Y: canvas.clientHeight - 50
+    Y: canvas.clientHeight - 60
   }
 }
 
@@ -129,6 +129,14 @@ const moveBall = () => {
     ball.position.y < BALL_CONF.SIZE.H ||
     ball.position.y > canvas.height - BALL_CONF.SIZE.H
   ) {
+    ball.speed.y *= -1
+  }
+  if (ball.position.y - pad.position.y - PAD_CONF.SIZE.H <= BALL_CONF.SIZE.W &&
+      ball.position.y >= pad.position.y) {
+    ball.speed.y *= -1
+  }
+  if (pad.position.y - ball.position.y <= BALL_CONF.SIZE.W &&
+      ball.position.y <= pad.position.y) {
     ball.speed.y *= -1
   }
   ball.position.x += ball.speed.x
