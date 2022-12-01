@@ -1,3 +1,5 @@
+import { Ball } from './modules/ball.js'
+
 const btnRules = document.getElementById('btn-show-rules')
 const btnClose = document.getElementById('btn-close-rules')
 const rules = document.getElementById('rules')
@@ -21,18 +23,7 @@ const BRICK = {
   },
   COLOR: 'yellow',
 }
-const BALL_CONF = {
-  COLOR: 'blue',
-  SIZE: {
-    W: 10,
-    H: 10,
-  },
-  START_POS: {
-    X: canvas.clientWidth / 2,
-    Y: canvas.clientHeight - 90,
-  },
-  SPEED: 7,
-}
+
 const PAD_CONF = {
   COLOR: 'black',
   SIZE: {
@@ -40,9 +31,9 @@ const PAD_CONF = {
     H: 15,
   },
   START_POS: {
-    X: ( canvas.clientWidth - 130 ) / 2,
-    Y: canvas.clientHeight - 60
-  }
+    X: (canvas.clientWidth - 130) / 2,
+    Y: canvas.clientHeight - 60,
+  },
 }
 
 // varibles
@@ -53,20 +44,20 @@ let pad
 // functions
 const init = () => {
   bricks = initBricks(BRICK_CONF.ROWS, BRICK_CONF.COLS)
-  ball = initBall()
+  ball = createBall()
   pad = initPad()
   setInterval(delta, 10)
 }
 
 const delta = () => {
   ctx.clearRect(0, 0, canvas.width, canvas.height)
-  moveBall()
+  ball.move()
   draw()
 }
 
 const draw = () => {
   drawBricks(bricks)
-  drawBall(ball)
+  ball.draw(ctx)
   drawPad(pad)
 }
 
@@ -104,61 +95,21 @@ const drawBricks = (bricks) => {
   })
 }
 
-const initBall = () => {
-  let ball = {
+const createBall = () => {
+  const BALL_CONF = {
+    color: 'blue',
+    size: 10,
     position: {
-      x: BALL_CONF.START_POS.X,
-      y: BALL_CONF.START_POS.Y,
+      x: canvas.clientWidth / 2,
+      y: canvas.clientHeight - 90,
     },
     speed: {
       x: 0,
-      y: BALL_CONF.SPEED,
+      y: -7,
     },
   }
-  return ball
-}
 
-const moveBall = () => {
-  if (
-    ball.position.x < BALL_CONF.SIZE.W ||
-    ball.position.x > canvas.width - BALL_CONF.SIZE.W
-  ) {
-    ball.speed.x *= -1
-  }
-  if (
-    ball.position.y < BALL_CONF.SIZE.H ||
-    ball.position.y > canvas.height - BALL_CONF.SIZE.H
-  ) {
-    ball.speed.y *= -1
-  }
-  if (ball.position.y - pad.position.y - PAD_CONF.SIZE.H <= BALL_CONF.SIZE.W &&
-      ball.position.y >= pad.position.y) {
-    ball.speed.y *= -1
-  }
-  if (pad.position.y - ball.position.y <= BALL_CONF.SIZE.W &&
-      ball.position.y <= pad.position.y) {
-    ball.speed.y *= -1
-  }
-  ball.position.x += ball.speed.x
-  ball.position.y += ball.speed.y
-}
-
-const drawBall = (ball) => {
-  ctx.beginPath()
-  ctx.ellipse(
-    ball.position.x,
-    ball.position.y,
-    BALL_CONF.SIZE.W,
-    BALL_CONF.SIZE.H,
-    0,
-    0,
-    Math.PI * 2
-  )
-  ctx.fillStyle = 'black'
-  ctx.stroke()
-
-  ctx.fillStyle = BALL_CONF.COLOR
-  ctx.fill()
+  return new Ball(BALL_CONF)
 }
 
 const initPad = () => {
@@ -167,18 +118,13 @@ const initPad = () => {
       x: PAD_CONF.START_POS.X,
       y: PAD_CONF.START_POS.Y,
     },
-  } 
+  }
   return pad
 }
 
 const drawPad = (pad) => {
   ctx.fillStyle = PAD_CONF.COLOR
-  ctx.fillRect(
-    pad.position.x,
-    pad.position.y,
-    PAD_CONF.SIZE.W,
-    PAD_CONF.SIZE.H
-  )
+  ctx.fillRect(pad.position.x, pad.position.y, PAD_CONF.SIZE.W, PAD_CONF.SIZE.H)
 }
 
 const drawBrick = (brick) => {
