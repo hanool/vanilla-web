@@ -1,4 +1,5 @@
 import { Ball } from './modules/ball.js'
+import { World } from './modules/world.js'
 
 const btnRules = document.getElementById('btn-show-rules')
 const btnClose = document.getElementById('btn-close-rules')
@@ -37,6 +38,7 @@ const PAD_CONF = {
 }
 
 // varibles
+let world
 let bricks
 let ball
 let pad
@@ -47,10 +49,12 @@ const init = () => {
   ball = createBall()
   pad = initPad()
   setInterval(delta, 10)
+  world = new World([ball])
 }
 
 const delta = () => {
   ctx.clearRect(0, 0, canvas.width, canvas.height)
+  world.checkCollision()
   ball.move()
   draw()
 }

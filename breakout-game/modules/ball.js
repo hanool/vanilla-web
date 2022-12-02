@@ -6,6 +6,22 @@ export class Ball {
     this.color = config?.color
   }
 
+  maxX = () => {
+    return this.position.x + this.size / 2
+  }
+
+  minX = () => {
+    return this.position.x - this.size / 2
+  }
+
+  maxY = () => {
+    return this.position.y + this.size / 2
+  }
+
+  minY = () => {
+    return this.position.y - this.size / 2
+  }
+
   draw = (ctx) => {
     ctx.beginPath()
     ctx.ellipse(
