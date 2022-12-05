@@ -17,7 +17,8 @@ export class World {
       for (let j = i + 1; j < this.components.length; j++) {
         let compB = this.components[j]
         if (this.isIntersect(compA, compB)) {
-          result.push({ a: compA, b: compB })
+          compA.collide(compB)
+          compB.collide(compA)
         }
       }
     }

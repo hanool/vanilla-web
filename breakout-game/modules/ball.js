@@ -45,4 +45,8 @@ export class Ball {
     this.position.x += this.speed.x
     this.position.y += this.speed.y
   }
+
+  collide = (obj) => {
+    console.log(`${obj} is collided!`)
+  }
 }
