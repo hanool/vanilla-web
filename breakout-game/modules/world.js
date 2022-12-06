@@ -1,9 +1,27 @@
+const IComponent = [ "maxX", "minX", "maxY", "minY", "collide" ]
+
 export class World {
   constructor(components) {
     this.components = new Array()
-    if (components !== null && components instanceof Array) {
-      this.components = this.components.concat(components)
+    if (components instanceof Array) {
+      components.forEach(comp => this.add(comp))
     }
+  }
+
+  /**
+   * Check if given object implements IComponent.
+   * @param {Object} object to check.
+   * @return {boolean}
+   */
+  isComponent(obj) {
+    if (!obj) return false
+    return IComponent.every(func => typeof obj[func] === 'function')
+  }
+
+  add(obj) {
+    if (!this.isComponent(obj)) return
+    
+    this.components = this.components.push(obj)
   }
 
   checkCollision() {
