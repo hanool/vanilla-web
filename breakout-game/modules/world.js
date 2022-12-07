@@ -18,12 +18,20 @@ export class World {
     return IComponent.every(func => typeof obj[func] === 'function')
   }
 
+  /**
+   * Adds given object to world's components if it's component.
+   * @param {Object} object to add. Only the object that implements IComponent will be added.
+   */
   add(obj) {
     if (!this.isComponent(obj)) return
     
     this.components = this.components.push(obj)
   }
 
+  /**
+   * Check if there's any component colliding each other.
+   * If components are colliding, triggers collide function to that components.
+   */
   checkCollision() {
     let result = []
     if (this.components.length < 2) {
@@ -43,6 +51,12 @@ export class World {
     return result
   }
 
+  /**
+   * Check given two components are intersected.
+   * @param {IComponent} component object
+   * @param {IComponent} another component object
+   * @return true if two components are intersected. false if not.
+   */
   isIntersect(compA, compB) {
     aLeftOfB = compA.maxX() < compB.minX()
     aRightOfB = compA.minX() > compB.maxX()
