@@ -1,4 +1,5 @@
 import { Ball } from './modules/ball.js'
+import { Brick } from './modules/brick.js'
 import { World } from './modules/world.js'
 
 const btnRules = document.getElementById('btn-show-rules')
