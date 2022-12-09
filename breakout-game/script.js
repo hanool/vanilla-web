@@ -40,38 +40,23 @@ const PAD_CONF = {
 
 // varibles
 let world
-let bricks
-let ball
-let pad
 
 // functions
 const init = () => {
-  bricks = initBricks(BRICK_CONF.ROWS, BRICK_CONF.COLS)
-  ball = createBall()
-  pad = initPad()
-  setInterval(delta, 10)
-  world = new World([ball])
+  let ctx = canvas.getContext("2d")
+  let components = new Array()
+  components = components.concat(createBricks(BRICK_CONF.ROWS, BRICK_CONF.COLS))
+  components = components.concat(createBall())
+  components = components.concat(initPad())
+  world = new World(canvas, ctx)
+  world.addAll(components)
 }
 
-const delta = () => {
-  ctx.clearRect(0, 0, canvas.width, canvas.height)
-  world.checkCollision()
-  ball.move()
-  draw()
-}
-
-const draw = () => {
-  drawBricks(bricks)
-  ball.draw(ctx)
-  drawPad(pad)
-}
-
-const initBricks = (rows, cols) => {
+const createBricks = (rows, cols) => {
   let bricks = []
   for (let i = 0; i < rows; i++) {
-    let row = []
     for (let j = 0; j < cols; j++) {
-      let brick = {
+      let brick = new Brick({
         position: {
           x: BRICK_CONF.START_POS.X + j * (BRICK.SIZE.X + BRICK_CONF.GAP),
           y: BRICK_CONF.START_POS.Y + i * (BRICK.SIZE.Y + BRICK_CONF.GAP),
@@ -80,24 +65,14 @@ const initBricks = (rows, cols) => {
           width: BRICK.SIZE.X,
           height: BRICK.SIZE.Y,
         },
+        color: BRICK.COLOR,
         broken: false,
-      }
-      row.push(brick)
+      })
+      bricks.push(brick)
     }
-    bricks.push(row)
   }
 
   return bricks
-}
-
-const drawBricks = (bricks) => {
-  bricks.forEach((row) => {
-    row.forEach((brick) => {
-      if (!brick.broken) {
-        drawBrick(brick)
-      }
-    })
-  })
 }
 
 const createBall = () => {
@@ -125,29 +100,6 @@ const initPad = () => {
     },
   }
   return pad
-}
-
-const drawPad = (pad) => {
-  ctx.fillStyle = PAD_CONF.COLOR
-  ctx.fillRect(pad.position.x, pad.position.y, PAD_CONF.SIZE.W, PAD_CONF.SIZE.H)
-}
-
-const drawBrick = (brick) => {
-  ctx.fillStyle = BRICK.COLOR
-  ctx.fillRect(
-    brick.position.x,
-    brick.position.y,
-    brick.size.width,
-    brick.size.height
-  )
-
-  ctx.strokeStyle = 'black'
-  ctx.strokeRect(
-    brick.position.x,
-    brick.position.y,
-    brick.size.width,
-    brick.size.height
-  )
 }
 
 const showRules = () => {

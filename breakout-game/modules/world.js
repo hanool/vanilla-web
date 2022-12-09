@@ -1,11 +1,37 @@
 const IComponent = [ "maxX", "minX", "maxY", "minY", "collide" ]
+const IDrawble = [ "draw" ]
 
 export class World {
-  constructor(components) {
+  constructor(canvas, ctx) {
+    this.canvas = canvas
+    this.ctx = ctx
     this.components = new Array()
-    if (components instanceof Array) {
-      components.forEach(comp => this.add(comp))
-    }
+    requestAnimationFrame(this.draw.bind(this))
+  }
+
+  /**
+   * Draws all drawable components to the canvas. 
+   */
+  draw() {
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
+
+    this.components.forEach(comp => {
+      if (this.isDrawable(comp)) {
+        comp.draw(this.ctx)
+      }
+    })
+
+    requestAnimationFrame(this.draw.bind(this))
+  }
+
+  /**
+   * Check if given object implements IDrawble.
+   * @param {Object} object to check.
+   * @return {boolean}
+   */
+  isDrawable(obj) {
+    if (!obj) return false
+    return IDrawble.every(func => typeof obj[func] === 'function')
   }
 
   /**
@@ -25,7 +51,13 @@ export class World {
   add(obj) {
     if (!this.isComponent(obj)) return
     
-    this.components = this.components.push(obj)
+    this.components.push(obj)
+  }
+
+  addAll(objs) {
+    if (objs instanceof Array) {
+      objs.forEach(obj => this.add(obj))
+    }
   }
 
   /**

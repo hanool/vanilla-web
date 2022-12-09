@@ -23,6 +23,8 @@ export class Ball {
   }
 
   draw = (ctx) => {
+    this.move()
+
     ctx.beginPath()
     ctx.ellipse(
       this.position.x,

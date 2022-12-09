@@ -24,7 +24,7 @@ export class Brick {
   }
 
   draw = (ctx) => {
-    ctx.fillStyle = BRICK.COLOR
+    ctx.fillStyle = this.color 
     ctx.fillRect(
       this.position.x,
       this.position.y,
