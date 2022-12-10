@@ -1,5 +1,6 @@
 import { Ball } from './modules/ball.js'
 import { Brick } from './modules/brick.js'
+import { Pad } from './modules/pad.js'
 import { World } from './modules/world.js'
 
 const btnRules = document.getElementById('btn-show-rules')
@@ -8,7 +9,6 @@ const rules = document.getElementById('rules')
 const canvas = document.getElementById('canvas')
 
 // constants
-const ctx = canvas.getContext('2d')
 const BRICK_CONF = {
   ROWS: 4,
   COLS: 7,
@@ -43,11 +43,11 @@ let world
 
 // functions
 const init = () => {
-  let ctx = canvas.getContext("2d")
+  let ctx = canvas.getContext('2d')
   let components = new Array()
   components = components.concat(createBricks(BRICK_CONF.ROWS, BRICK_CONF.COLS))
   components = components.concat(createBall())
-  components = components.concat(initPad())
+  components = components.concat(createPad())
   world = new World(canvas, ctx)
   world.addAll(components)
 }
@@ -92,14 +92,19 @@ const createBall = () => {
   return new Ball(BALL_CONF)
 }
 
-const initPad = () => {
-  let pad = {
+const createPad = () => {
+  const padConf = {
     position: {
       x: PAD_CONF.START_POS.X,
       y: PAD_CONF.START_POS.Y,
     },
+    size: {
+      width: PAD_CONF.SIZE.W,
+      height: PAD_CONF.SIZE.H,
+    },
+    color: PAD_CONF.COLOR,
   }
-  return pad
+  return new Pad(padConf)
 }
 
 const showRules = () => {
