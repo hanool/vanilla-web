@@ -3,8 +3,10 @@ export class Pad {
     this.position = config?.position
     this.size = config?.size
     this.color = config?.color
+    this.speed = 0
 
-    document.addEventListener('keypress', this.onKeyPress.bind(this))
+    document.addEventListener('keydown', this.onKeyDown.bind(this))
+    document.addEventListener('keyup', this.onKeyUp.bind(this))
   }
 
   maxX = () => {
@@ -24,6 +26,8 @@ export class Pad {
   }
 
   draw = (ctx) => {
+    this.position.x += this.speed
+
     ctx.fillStyle = this.color
     ctx.fillRect(
       this.position.x,
@@ -41,18 +45,22 @@ export class Pad {
     )
   }
 
-  onKeyPress = (e) => {
+  onKeyDown = (e) => {
     if (e.code === 'ArrowRight') {
-      this.move(5)
+      this.speed = 5
     }
 
     if (e.code === 'ArrowLeft') {
-      this.move(-5)
+      this.speed = -5
     }
   }
 
-  move = (amount) => {
-    this.position.x += amount
+  onKeyUp = () => {
+    this.speed = 0
+  }
+
+  move = () => {
+    this.position.x += speed
   }
 
   collide = () => {}
