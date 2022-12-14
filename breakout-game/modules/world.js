@@ -1,5 +1,5 @@
-const IComponent = [ "maxX", "minX", "maxY", "minY", "collide" ]
-const IDrawble = [ "draw" ]
+const IComponent = ["maxX", "minX", "maxY", "minY", "collide"]
+const IDrawble = ["draw"]
 
 export class World {
   constructor(canvas, ctx) {
@@ -15,6 +15,7 @@ export class World {
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
 
+    this.checkCollision()
     this.components.forEach(comp => {
       if (this.isDrawable(comp)) {
         comp.draw(this.ctx)
@@ -50,7 +51,7 @@ export class World {
    */
   add(obj) {
     if (!this.isComponent(obj)) return
-    
+
     this.components.push(obj)
   }
 
@@ -90,10 +91,10 @@ export class World {
    * @return true if two components are intersected. false if not.
    */
   isIntersect(compA, compB) {
-    aLeftOfB = compA.maxX() < compB.minX()
-    aRightOfB = compA.minX() > compB.maxX()
-    aAboveB = compA.minY() > compB.maxY()
-    aBelowB = compA.maxY() < compB.minY()
+    let aLeftOfB = compA.maxX() < compB.minX()
+    let aRightOfB = compA.minX() > compB.maxX()
+    let aAboveB = compA.minY() > compB.maxY()
+    let aBelowB = compA.maxY() < compB.minY()
 
     return !(aLeftOfB || aRightOfB || aAboveB || aBelowB)
   }
