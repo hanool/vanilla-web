@@ -9,6 +9,8 @@ export class Pad {
     document.addEventListener('keyup', this.onKeyUp.bind(this))
   }
 
+  isMoving = () => this.speed !== 0
+
   maxX = () => {
     return this.position.x + this.size.width
   }
@@ -63,5 +65,5 @@ export class Pad {
     this.position.x += speed
   }
 
-  collide = () => {}
+  collide = () => { }
 }
