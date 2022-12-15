@@ -85,7 +85,7 @@ const createBall = () => {
     },
     speed: {
       x: 0,
-      y: -7,
+      y: -3,
     },
   }
 

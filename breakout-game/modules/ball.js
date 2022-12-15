@@ -52,7 +52,7 @@ export class Ball {
     this.speed.x *= -1
     this.speed.y *= -1
     if (obj?.isMoving && obj.isMoving()) {
-      this.speed.x += obj.speed
+      this.speed.x += 0.3 * obj.speed
     }
   }
 }

@@ -1,3 +1,4 @@
+const PAD_SPEED = 3
 export class Pad {
   constructor(config) {
     this.position = config?.position
@@ -49,11 +50,11 @@ export class Pad {
 
   onKeyDown = (e) => {
     if (e.code === 'ArrowRight') {
-      this.speed = 5
+      this.speed = PAD_SPEED
     }
 
     if (e.code === 'ArrowLeft') {
-      this.speed = -5
+      this.speed = -PAD_SPEED
     }
   }
 
