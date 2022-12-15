@@ -16,6 +16,7 @@ export class World {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
 
     this.checkCollision()
+    this.checkBroken()
     this.components.forEach(comp => {
       if (this.isDrawable(comp)) {
         comp.draw(this.ctx)
@@ -82,6 +83,17 @@ export class World {
       }
     }
     return result
+  }
+
+  checkBroken() {
+    this.components.forEach(comp => {
+      if (comp["broken"] && comp.broken) {
+        let index = this.components.indexOf(comp)
+        if (index > -1) {
+          this.components.splice(index, 1)
+        }
+      }
+    })
   }
 
   /**

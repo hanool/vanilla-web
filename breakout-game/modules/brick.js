@@ -24,7 +24,7 @@ export class Brick {
   }
 
   draw = (ctx) => {
-    ctx.fillStyle = this.color 
+    ctx.fillStyle = this.color
     ctx.fillRect(
       this.position.x,
       this.position.y,
@@ -42,6 +42,6 @@ export class Brick {
   }
 
   collide = (obj) => {
-      this.broken = true
+    this.broken = true
   }
 }
