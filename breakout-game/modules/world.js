@@ -85,10 +85,19 @@ export class World {
     return result
   }
 
+  /**
+   * Check if given component is instance of Class `Brick`
+   * @param {Object} component object to check.
+   * @return {boolean}
+   */
   isBrick(comp) {
     return comp.constructor.name === 'Brick'
   }
 
+  /**
+   * Check if there's broken `Brick` component.
+   * If component is broken `Brick` then remove from components.
+   */
   checkBroken() {
     this.components
       .filter(comp => this.isBrick(comp))
