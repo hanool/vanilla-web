@@ -85,15 +85,21 @@ export class World {
     return result
   }
 
+  isBrick(comp) {
+    return comp.constructor.name === 'Brick'
+  }
+
   checkBroken() {
-    this.components.forEach(comp => {
-      if (comp["broken"] && comp.broken) {
-        let index = this.components.indexOf(comp)
-        if (index > -1) {
-          this.components.splice(index, 1)
+    this.components
+      .filter(comp => this.isBrick(comp))
+      .forEach(comp => {
+        if (comp.broken) {
+          let index = this.components.indexOf(comp)
+          if (index > -1) {
+            this.components.splice(index, 1)
+          }
         }
-      }
-    })
+      })
   }
 
   /**
